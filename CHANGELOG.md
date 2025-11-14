@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.2.1] - 2025-11-14
+## [v0.3.0] - 2025-11-14
 ### Added
 - Fluent chain helper: `GradeConversion::towards($target)` → `.all()` / `.single(...)`.
 - Two selection policies:
