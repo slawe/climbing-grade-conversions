@@ -1,9 +1,9 @@
 <?php
 
-use Climb\Grades\Domain\Service\GradeConversion;
 use Climb\Grades\Domain\Service\PrimaryIndexPolicy;
 use Climb\Grades\Domain\Service\TargetVariantPolicy;
 use Climb\Grades\Domain\Value\GradeSystem;
+use Climb\Grades\Infrastructure\Bootstrap\GradeConversion;
 
 require '../vendor/autoload.php';
 

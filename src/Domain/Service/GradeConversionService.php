@@ -78,7 +78,7 @@ final class GradeConversionService
         $sourceSystem = GradeSystem::from(strtoupper($from->system()));
         $sourceScale  = $this->scaleOf($sourceSystem);
 
-        // choose one (primary) index in source scale
+        // choose one (primary) index in a source scale
         $index = $sourceScale->toIndexWithPolicy($from, $sourcePolicy);
 
         // convert that index into the target scale and take the first textual variant

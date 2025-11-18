@@ -2,7 +2,7 @@
 
 namespace Climb\Grades\Domain\Service;
 
-use Climb\Grades\Domain\Exception\{AmbiguousGrade, GradeNotFound, IndexOutOfRange, InvalidScaleData};
+use Climb\Grades\Domain\Exception\{GradeNotFound, IndexOutOfRange, InvalidScaleData};
 use Climb\Grades\Domain\Repository\GradeScaleDataRepository;
 use Climb\Grades\Domain\Value\DifficultyIndex;
 use Climb\Grades\Domain\Value\Grade;
@@ -37,11 +37,16 @@ abstract class AbstractGradeScale implements GradeScale
      *
      * Example:
      *  "5a" => [10],
-     *  "2"  => [10, 11, 12]  // e.g. V2 covering multiple difficulty indexes
+     *  "2" => [10, 11, 12] // e.g., V2 covering multiple difficulty indexes
      *
      * @var array<string,int[]>
      */
     private array $gradeToIndexes = [];
+
+    /**
+     * @var bool|null
+     */
+    private static ?bool $isNormalizerAvailable = null;
 
     /**
      * AbstractGradeScale constructor.
@@ -198,19 +203,24 @@ abstract class AbstractGradeScale implements GradeScale
         return array_values(array_filter($parts, static fn($s) => $s !== ''));
     }
 
+
     /**
-     * Normalized a grade for map  keys.
+     * Normalizes the given string by trimming, converting to lowercase,
+     * and applying Unicode normalization if available.
      *
-     * @param string $v
-     * @return string
+     * @param string $v The input string to be normalized.
+     * @return string The normalized string.
      */
     private function normalized(string $v): string
     {
         $v = trim($v);
 
-        // if ext/int available, normalize unicode
-        if (class_exists(Normalizer::class)) {
-            $v = Normalizer::normalize($v);
+        if (self::$isNormalizerAvailable === null) {
+            self::$isNormalizerAvailable = class_exists(Normalizer::class);
+        }
+
+        if (self::$isNormalizerAvailable) {
+            $v = Normalizer::normalize($v, Normalizer::FORM_C);
         }
 
         return mb_strtolower(trim($v));
@@ -226,15 +236,15 @@ abstract class AbstractGradeScale implements GradeScale
     {
         $keys = array_keys($map);
 
-        // empty map is ok
+        // an empty map is ok
         if ($keys === []) {
             return;
         }
 
-        // all must be same
+        // all must be the same
         foreach ($keys as $k) {
             if (!is_int($k)) {
-                throw new InvalidScaleData("Scale map must use integer keys starting from 0.");
+                throw new InvalidScaleData("Scale map must use integer keys starting from 1.");
             }
         }
 

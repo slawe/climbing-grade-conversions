@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Climb\Tests;
 
-use Climb\Grades\Domain\Service\GradeConversion;
+use Climb\Grades\Infrastructure\Bootstrap\GradeConversion;
 use Climb\Grades\Domain\Value\GradeSystem;
 use PHPUnit\Framework\TestCase;
 

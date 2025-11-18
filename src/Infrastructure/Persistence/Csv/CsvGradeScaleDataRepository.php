@@ -11,9 +11,6 @@ final class CsvGradeScaleDataRepository implements GradeScaleDataRepository
 {
     private string $path;
 
-    /** @var array<string, array<int,string>> */
-    private array $cache = [];
-
     public function __construct(string $path)
     {
         $this->path = $path;
@@ -25,10 +22,6 @@ final class CsvGradeScaleDataRepository implements GradeScaleDataRepository
     public function indexToGradeMap(GradeSystem $system): array
     {
         $key = $system->value;
-
-        if (isset($this->cache[$key])) {
-            return $this->cache[$key];
-        }
 
         if (!is_file($this->path)) {
             throw new RuntimeException("Grades CSV file not found: $this->path");
@@ -71,6 +64,6 @@ final class CsvGradeScaleDataRepository implements GradeScaleDataRepository
 
         ksort($map);
 
-        return $this->cache[$key] = $map;
+        return $map;
     }
 }

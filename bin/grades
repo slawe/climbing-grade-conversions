@@ -2,7 +2,7 @@
 <?php
 declare(strict_types=1);
 
-use Climb\Grades\Domain\Service\GradeConversion;
+use Climb\Grades\Infrastructure\Bootstrap\GradeConversion;
 use Climb\Grades\Domain\Service\PrimaryIndexPolicy;
 use Climb\Grades\Domain\Service\TargetVariantPolicy;
 use Climb\Grades\Domain\Value\GradeSystem;
