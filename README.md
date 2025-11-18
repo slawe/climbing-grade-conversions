@@ -185,7 +185,7 @@ php bin/grades 6c+ FR YDS
 
 See **[CHANGELOG.md](./CHANGELOG.md)** for release notes.
 
-Latest: **v0.3.0** — chain API (`towards()->all()/single()`), selection policies, validated scale data, CLI flags, and exact-source return in `toAll(includeSource: true)`.
+Latest: **v0.3.1** — Release: Architecture refactoring and performance improvements.
 
 ---
 
